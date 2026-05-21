@@ -80,26 +80,39 @@ export default function MiaFlowLandingPage() {
     setMessage("");
 
     try {
-      const response = await fetch("/api/waitlist", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
-      });
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT || "https://formspree.io/f/YOUR_FORM_ID",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            source: "MiaFlow waitlist",
+          }),
+        }
+      );
 
-      const data = await response.json();
+      const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        throw new Error(data?.error || "Something went wrong. Please try again.");
+        throw new Error(
+          data?.error || "Could not save your email right now. Please try again."
+        );
       }
 
       setStatus("success");
-      setMessage(data?.message || "You are on the waitlist. We will be in touch soon.");
+      setMessage("You are on the waitlist. We will be in touch soon.");
       setEmail("");
     } catch (error) {
       setStatus("error");
-      setMessage(error instanceof Error ? error.message : "Something went wrong. Please try again.");
+      setMessage(
+        error instanceof Error
+          ? error.message
+          : "Could not save your email right now. Please try again."
+      );
     }
   }
 
