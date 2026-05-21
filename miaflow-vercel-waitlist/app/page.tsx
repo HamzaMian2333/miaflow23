@@ -81,19 +81,17 @@ export default function MiaFlowLandingPage() {
 
     try {
       const response = await fetch(
-        process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT || "https://formspree.io/f/YOUR_FORM_ID",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            email,
-            source: "MiaFlow waitlist",
-          }),
-        }
-      );
+        const response = await fetch("https://formspree.io/f/meedayyg", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+  },
+  body: JSON.stringify({
+    email,
+    source: "MiaFlow waitlist",
+  }),
+});
 
       const data = await response.json().catch(() => ({}));
 
