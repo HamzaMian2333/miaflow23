@@ -80,7 +80,7 @@ export default function MiaFlowLandingPage() {
     setMessage("");
 
     try {
-      const response = await fetch(
+     
         const response = await fetch("https://formspree.io/f/meedayyg", {
   method: "POST",
   headers: {
